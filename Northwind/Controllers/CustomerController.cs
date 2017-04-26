@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Northwind.Models;
 using Northwind.Security;
 using System.Web.Security;
+using System.Net;
 
 namespace Northwind.Controllers
 {
@@ -15,6 +16,10 @@ namespace Northwind.Controllers
         [Authorize]
         public ActionResult Account()
         {
+            // cookies
+            if (Request.Cookies["role"].Value != "customer")
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
             ViewBag.CustomerID = UserAccount.GetUserID();
             return View();
         }
@@ -52,7 +57,12 @@ namespace Northwind.Controllers
                     // authenticate user (this stores the CustomerID in an encrypted cookie)
                     // normally, you would require HTTPS
                     FormsAuthentication.SetAuthCookie(customer.CustomerID.ToString(), false);
-                    
+
+                    // send a cookie to the client to indicate that this is a customer
+                    HttpCookie myCookie = new HttpCookie("role");
+                    myCookie.Value = "customer";
+                    Response.Cookies.Add(myCookie);
+
                     // if there is a return url, redirect to the url
                     if (ReturnUrl != null)
                     {
@@ -78,6 +88,13 @@ namespace Northwind.Controllers
             // Add new customer to database
             using (NORTHWNDEntities db = new NORTHWNDEntities())
             {
+                // first, make sure that the CompanyName is unique
+                if (db.Customers.Any(c => c.CompanyName == customer.CompanyName))
+                {
+                    // duplicate CompanyName
+                    return View();
+                }
+
                 // Generate guid for this customer
                 customer.UserGuid = System.Guid.NewGuid();
                 // Hash & Salt the customer Password using SHA-1 algorithm
