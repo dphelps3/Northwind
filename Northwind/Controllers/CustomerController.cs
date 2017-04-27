@@ -18,16 +18,40 @@ namespace Northwind.Controllers
         {
             // cookies
             if (Request.Cookies["role"].Value != "customer")
+            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
-            ViewBag.CustomerID = UserAccount.GetUserID();
-            return View();
-        }
+            //ViewBag.CustomerID = UserAccount.GetUserID();
+            using (NORTHWNDEntities db = new NORTHWNDEntities())
+            {
+                // find customer using CustomerID (stored in authentication ticket)
+                Customer customer = db.Customers.Find(UserAccount.GetUserID());
+                // display original values in textboxes when customer is editing data
+                CustomerEdit EditCustomer = new CustomerEdit()
+                {
+                    CompanyName = customer.CompanyName,
+                    ContactName = customer.ContactName,
+                    ContactTitle = customer.ContactTitle,
+                    Address = customer.Address,
+                    City = customer.City,
+                    Region = customer.Region,
+                    PostalCode = customer.PostalCode,
+                    Country = customer.Country,
+                    Phone = customer.Phone,
+                    Fax = customer.Fax,
+                    Email = customer.Email
+                };
+                return View(EditCustomer);
+                }
+            }
+
         // GET: Customer/Register
         public ActionResult Register()
         {
             return View();
         }
+
         // GET: Customer/SignIn
         public ActionResult SignIn()
         {
@@ -38,6 +62,44 @@ namespace Northwind.Controllers
             }
             return View();
         }
+        
+        // POST: Customer/Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register([Bind(Include = "Email,Password,CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax")] CustomerRegister customerRegister)
+        {
+            // Add new customer to database
+            using (NORTHWNDEntities db = new NORTHWNDEntities())
+            {
+                if (ModelState.IsValid)
+                {
+                    // create customer
+                    Customer customer = customerRegister.MapToCustomer();
+
+                    // first, make sure that the CompanyName is unique
+                    if (db.Customers.Any(c => c.CompanyName == customer.CompanyName))
+                    {
+                        // duplicate CompanyName
+                        return View();
+                    }
+
+                    // Generate guid for this customer
+                    customer.UserGuid = System.Guid.NewGuid();
+
+                    // Hash & Salt the customer Password using SHA-1 algorithm
+                    customer.Password = UserAccount.HashSHA1(customer.Password + customer.UserGuid);
+
+                    // Save customer to database
+                    db.Customers.Add(customer);
+                    db.SaveChanges();
+
+                    return RedirectToAction(actionName: "Index", controllerName: "Home");
+                }
+
+                // validation error
+                return View();
+            }
+        }
 
         // POST: Customer/SignIn
         [HttpPost]
@@ -46,6 +108,8 @@ namespace Northwind.Controllers
         {
             using (NORTHWNDEntities db = new NORTHWNDEntities())
             {
+                if (ModelState.IsValid)
+                {
                 // find customer by CustomerId
                 Customer customer = db.Customers.Find(customerSignIn.CustomerId);
                 // hash & salt the posted password
@@ -70,41 +134,69 @@ namespace Northwind.Controllers
                     }
 
                     // Redirect to Home page
-                    //return RedirectToAction(actionName: "Index", controllerName: "Home");
+                    return RedirectToAction(actionName: "Index", controllerName: "Home");
                 }
                 else
                 {
                     // Passwords do not match
+                    ModelState.AddModelError("Password", "Incorrect password");
                 }
-                ViewBag.CustomerID = new SelectList(db.Customers.OrderBy(c => c.CompanyName), "CustomerID", "CompanyName").ToList();
-                return View();
+            }
+                    // create drop down list box for company name
+                    ViewBag.CustomerID = new SelectList(db.Customers.OrderBy(c => c.CompanyName), "CustomerID", "CompanyName").ToList();
+                    return View();
             }
         }
-        // POST: Customer/Register
+
+        [Authorize]
         [HttpPost]
+
+        // POST: Customer/Account
         [ValidateAntiForgeryToken]
-        public ActionResult Register([Bind(Include = "Email,Password,CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax")] Customer customer)
+        public ActionResult Account([Bind(Include = "CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax,Email")] CustomerEdit UpdatedCustomer)
         {
-            // Add new customer to database
+            // For future version, make sure that an authenticated user is a customer
+            if (Request.Cookies["role"].Value != "customer")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             using (NORTHWNDEntities db = new NORTHWNDEntities())
             {
-                // first, make sure that the CompanyName is unique
-                if (db.Customers.Any(c => c.CompanyName == customer.CompanyName))
+                if (ModelState.IsValid)
                 {
-                    // duplicate CompanyName
-                    return View();
-                }
+                    Customer customer = db.Customers.Find(UserAccount.GetUserID());
+                    //customer.CompanyName = UpdatedCustomer.CompanyName;
+                    // if the customer is changing their CompanyName
+                    if (customer.CompanyName.ToLower() != UpdatedCustomer.CompanyName.ToLower())
+                    {
+                        // Ensure that the CompanyName is unique
+                        if (db.Customers.Any(c => c.CompanyName == UpdatedCustomer.CompanyName))
+                        {
+                            // duplicate CompanyName
+                            ModelState.AddModelError("CompanyName", "Duplicate Company Name");
+                            return View(UpdatedCustomer);
+                        }
+                        customer.CompanyName = UpdatedCustomer.CompanyName;
+                    }
+                    customer.Address = UpdatedCustomer.Address;
+                    customer.City = UpdatedCustomer.City;
+                    customer.ContactName = UpdatedCustomer.ContactName;
+                    customer.ContactTitle = UpdatedCustomer.ContactTitle;
+                    customer.Country = UpdatedCustomer.Country;
+                    customer.Email = UpdatedCustomer.Email;
+                    customer.Fax = UpdatedCustomer.Fax;
+                    customer.Phone = UpdatedCustomer.Phone;
+                    customer.PostalCode = UpdatedCustomer.PostalCode;
+                    customer.Region = UpdatedCustomer.Region;
 
-                // Generate guid for this customer
-                customer.UserGuid = System.Guid.NewGuid();
-                // Hash & Salt the customer Password using SHA-1 algorithm
-                customer.Password = UserAccount.HashSHA1(customer.Password + customer.UserGuid);
-                // Save customer to database
-                db.Customers.Add(customer);
-                db.SaveChanges();
-                return RedirectToAction(actionName: "Index", controllerName: "Home");
+                    db.SaveChanges();
+                    return RedirectToAction(actionName: "Index", controllerName: "Home");
+                }
+                // validation error
+                return View(UpdatedCustomer);
             }
-            //return View();
         }
+
     }
 }

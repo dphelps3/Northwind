@@ -4,12 +4,15 @@
     ViewBag.Title = "Product";
 }
 
+@*
 <div id="alert-search" class="alert alert-info alert-dismissable fade in" style="position:fixed;">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
     <strong id="alert-search-msg">Your request produced @Model.Count() results</strong>
 </div>
+*@
+
 <table class="table table-hover table-responsive">
     <thead>
         <tr class="font-md">
@@ -34,14 +37,65 @@
     <a href="~/Product/Catgeory"><i class="fa fa-list"></i> Product Categories</a>
 </div>
 
+<!-- Footer -->
+<nav id="nav-footer" class="navbar-default navbar-fixed-bottom">
+    <div class="container font-md">
+        Minimum Price: $<span id="minPrice">0</span>
+        <a id="down" data-val="-5"><i class="fa fa-chevron-circle-down"></i></a>
+        <a id="up" data-val="-5"><i class="fa fa-chevron-circle-up"></i></a>
+        <div id="modelCountDisplay" class="pull-right">
+            0 products
+        </div>
+    </div>
+</nav>
+
 @section scripts
 {
     <script>
         $(function () {
-            $('.product-row').click(function () {
+            showModelCount(@Model.Count())
+            $('#up, #down').click(function () {
+                var minPrice = parseInt($('#minPrice').html()) + parseInt($(this).data("val"));
+                if (minPrice >= 0 && minPrice <= 100) {
+                    $('#minPrice').html(minPrice);
+
+                    var id = $('#id').val() ? "/" + $('#id').val() : "";
+                    var str = $('#str').val() ? "&SearchString=" + $('#str').val() : "";
+                    var URL = "@Url.Content("~")Product/FilterProducts" + id + "?PriceFilter=" + minPrice + str;
+
+                    $.getJSON(URL)
+                       .always(function (data, textStatus, statusObject) {
+                           if (statusObject.status == 200) {
+                               // 200 OK
+                               // console.log(statusObject.status);
+                               $('#products').html('');
+                               for (i = 0; i < data.length; i++) {
+                                   //console.log(data[i].ProductName);
+                                   var str = "<tr class='product-row' id='" + data[i].ProductID + "'>";
+                                   str += "<td>" + data[i].ProductName + " (" + data[i].QuantityPerUnit + ")</td>";
+                                   str += "<td class='text-right'>$" + data[i].UnitPrice.toFixed(2) + "</td>";
+                                   str += "<td class='text-right'>" + data[i].UnitsInStock + "</td>";
+                                   str += "</tr>";
+                                   $('#products').append(str);
+                               }
+                               showModelCount(data.length);
+                           } else {
+                               // Error
+                               console.log("Http response code: " + data.status);
+                               console.log("Http response: " + data.statusText);
+                           }
+                           $('#filterModal').modal('hide')
+                       });
+                }
+            });
+
+            $('#products').on('click', '.product-row', function () {
                 alert(this.id);
             });
-            setTimeout(function () { $('.alert').fadeOut(); }, 3000);
+
+            function showModelCount(modelCount) {
+                $('#modelCountDisplay').html(modelCount + " products");
+            }
         });
     </script>
 }

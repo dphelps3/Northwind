@@ -24,8 +24,7 @@ namespace Northwind.Security
 
         public static Int32 GetUserID()
         {
-            HttpCookie authCookie =
-           HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
+            HttpCookie authCookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
             return Convert.ToInt32(ticket.Name);
         }

@@ -19,6 +19,7 @@ namespace Northwind.Controllers
                 return View(db.Categories.OrderBy(c => c.CategoryName).ToList());
             }
         }
+
         // GET: Product/Discount
         public ActionResult Discount()
         {
@@ -30,11 +31,13 @@ namespace Northwind.Controllers
                 return View(db.Discounts.Where(s => s.StartTime <= now && s.EndTime > now).ToList());
             }
         }
+
         // GET: Product/Search
         public ActionResult Search()
         {
             return View();
         }
+
         // POST: Product/SearchResults
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -47,6 +50,7 @@ namespace Northwind.Controllers
                 return View("Product", db.Products.Where(p => p.ProductName.Contains(SearchString) && p.Discontinued == false).OrderBy(p => p.ProductName).ToList());
             }
         }
+
         // GET: Product/Product/1
         public ActionResult Product(int? id)
         {
@@ -62,6 +66,12 @@ namespace Northwind.Controllers
                 // retrieve list of products
                 return View(db.Products.Where(p => p.CategoryID == id && p.Discontinued == false).OrderBy(p => p.ProductName).ToList());
             }
+        }
+
+        // GET: Product/FilterProducts
+        public JsonResult FilterProducts()
+        {
+            return Json(new { });
         }
     }
 }

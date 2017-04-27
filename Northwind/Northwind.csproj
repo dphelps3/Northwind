@@ -142,6 +142,8 @@
     <Compile Include="Models\Customer.cs">
       <DependentUpon>NORTHWNDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomerEdit.cs" />
+    <Compile Include="Models\CustomerRegister.cs" />
     <Compile Include="Models\CustomerSignIn.cs" />
     <Compile Include="Models\database_firewall_rules.cs">
       <DependentUpon>NORTHWNDModel.tt</DependentUpon>
