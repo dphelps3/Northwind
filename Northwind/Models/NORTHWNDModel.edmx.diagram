@@ -4,19 +4,21 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e0abe4d2fa644882a5fea1201ca86d5b" Name="Diagram1">
-        <EntityTypeShape EntityType="NORTHWNDModel.Category" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="NORTHWNDModel.Customer" Width="1.5" PointX="3.75" PointY="11.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="NORTHWNDModel.Discount" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="NORTHWNDModel.Employee" Width="1.5" PointX="3.75" PointY="16.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="NORTHWNDModel.Order_Detail" Width="1.5" PointX="8.25" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="NORTHWNDModel.Order" Width="1.5" PointX="6" PointY="15.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="NORTHWNDModel.Product" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="NORTHWNDModel.Region" Width="1.5" PointX="5.75" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="NORTHWNDModel.Shipper" Width="1.5" PointX="3.75" PointY="21.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="NORTHWNDModel.Supplier" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="NORTHWNDModel.Territory" Width="1.5" PointX="9" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="NORTHWNDModel.database_firewall_rules" Width="1.5" PointX="0.75" PointY="9.125" IsExpanded="true" />
+      <Diagram DiagramId="84c30ff7300f4b55b0d430ff36d6ee90" Name="Diagram1">
+        <EntityTypeShape EntityType="NORTHWNDModel.Cart" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NORTHWNDModel.Category" Width="1.5" PointX="0.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NORTHWNDModel.Customer" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NORTHWNDModel.Discount" Width="1.5" PointX="5.25" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="NORTHWNDModel.Employee" Width="1.5" PointX="3.75" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NORTHWNDModel.Order_Detail" Width="1.5" PointX="8.25" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="NORTHWNDModel.Order" Width="1.5" PointX="6" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NORTHWNDModel.Product" Width="1.5" PointX="3" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NORTHWNDModel.Region" Width="1.5" PointX="7.75" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NORTHWNDModel.Shipper" Width="1.5" PointX="3.75" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="NORTHWNDModel.Supplier" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NORTHWNDModel.Territory" Width="1.5" PointX="10" PointY="10.625" IsExpanded="true" />
+        <AssociationConnector Association="NORTHWNDModel.FK_Cart_Customers" ManuallyRouted="false" />
+        <AssociationConnector Association="NORTHWNDModel.FK_Cart_Products" ManuallyRouted="false" />
         <AssociationConnector Association="NORTHWNDModel.FK_Products_Categories" ManuallyRouted="false" />
         <AssociationConnector Association="NORTHWNDModel.FK_Orders_Customers" ManuallyRouted="false" />
         <AssociationConnector Association="NORTHWNDModel.FK_Specials_Products" ManuallyRouted="false" />
