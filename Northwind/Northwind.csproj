@@ -200,7 +200,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Index.html" />
     <Content Include="Models\NORTHWNDModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>NORTHWNDModel.edmx</DependentUpon>
@@ -211,6 +210,7 @@
       <DependentUpon>NORTHWNDModel.edmx</DependentUpon>
       <LastGenOutput>NORTHWNDModel.cs</LastGenOutput>
     </Content>
+    <Content Include="readme.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\NORTHWNDModel.edmx">
