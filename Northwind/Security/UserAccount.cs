@@ -14,6 +14,7 @@ namespace Northwind.Security
             var sha1 = System.Security.Cryptography.SHA1.Create();
             var inputBytes = Encoding.ASCII.GetBytes(value);
             var hash = sha1.ComputeHash(inputBytes);
+
             var sb = new StringBuilder();
             for (var i = 0; i < hash.Length; i++)
             {
@@ -21,7 +22,6 @@ namespace Northwind.Security
             }
             return sb.ToString();
         }
-
         public static Int32 GetUserID()
         {
             HttpCookie authCookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
@@ -30,5 +30,4 @@ namespace Northwind.Security
         }
 
     }
-
 }

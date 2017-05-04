@@ -31,7 +31,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-database"></i> Products<span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" id="NavbarProducts">
                             <li><a href="~/Product/Category"><i class="fa fa-list"></i> Browse Categories</a></li>
                             <li><a href="~/Product/Search" id="search"><i class="fa fa-search"></i> Product Search</a></li>
                             <li role="separator" class="divider"></li>
@@ -46,16 +46,14 @@
                         <ul class="dropdown-menu">
                             @if (!Request.IsAuthenticated)
                             {
-                                <li><a href="~/Customer/SignIn"><i class="fa fa-sign-in"></i>&nbsp;Sign In</a></li>
-                                <li><a href="~/Customer/Register"><i class="fa fa-user-plus"></i>&nbsp;Register</a></li>
+                                <li><a href="~/Customer/SignIn"><i class="fa fa-sign-in"></i> Sign In</a></li>
+                                <li><a href="~/Customer/Register"><i class="fa fa-user-plus"></i> Register</a></li>
                                 <li role="separator" class="divider"></li>
                             }
-                            <li><a href="~/Customer/Account"><i class="fa fa-user"></i>&nbsp;Your Account</a></li>
+                            <li><a href="~/Customer/Account"><i class="fa fa-user"></i> Your Account</a></li>
                         </ul>
                     </li>
                 </ul>
-
-                <!-- Product Search -->
                 <form class="navbar-form navbar-left hidden-xs" role="search" method="post" action="~/Product/SearchResults">
                     @Html.AntiForgeryToken()
                     <div class="form-group">
@@ -63,8 +61,6 @@
                     </div>
                     <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                 </form>
-
-                <!-- Sign Out link -->
                 @if (Request.IsAuthenticated)
                 {
                     <ul class="nav navbar-nav navbar-right">

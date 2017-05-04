@@ -1,6 +1,5 @@
 ﻿@using Northwind.Models
-<!-- at symbolmodel Customer -->
-@model Northwind.Models.CustomerRegister
+@model Customer
 
 @{
     ViewBag.Title = "Register";
@@ -12,14 +11,11 @@
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
         <div class="form-horizontal">
             <div class="form-group">
                 @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", placeholder = "Company Name" } })
-                    @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", placeholder = "Compnay Name" } })
                 </div>
             </div>
             <!-- Password -->
@@ -27,14 +23,12 @@
                 @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Password" })
-                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.ContactName, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-control", placeholder = "Contact Name" } })
-                    @Html.ValidationMessageFor(model => model.ContactName, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -42,7 +36,6 @@
                 @Html.LabelFor(model => model.ContactTitle, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.ContactTitle, new { htmlAttributes = new { @class = "form-control", placeholder = "Contact Title" } })
-                    @Html.ValidationMessageFor(model => model.ContactTitle, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -50,7 +43,6 @@
                 @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", placeholder = "Street Address" } })
-                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -58,7 +50,6 @@
                 @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", placeholder = "City" } })
-                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -66,7 +57,6 @@
                 @Html.LabelFor(model => model.Region, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Region, new { htmlAttributes = new { @class = "form-control", placeholder = "State/Region" } })
-                    @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -74,7 +64,6 @@
                 @Html.LabelFor(model => model.PostalCode, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-control", placeholder = "Postal Code" } })
-                    @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -82,7 +71,6 @@
                 @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control", placeholder = "Country" } })
-                    @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -90,7 +78,6 @@
                 @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", placeholder = "Phone" } })
-                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -98,7 +85,6 @@
                 @Html.LabelFor(model => model.Fax, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Fax, new { htmlAttributes = new { @class = "form-control", placeholder = "Fax" } })
-                    @Html.ValidationMessageFor(model => model.Fax, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -106,7 +92,6 @@
                 @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
-                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -122,7 +107,3 @@
     }
 </div>
 <div class="font-md"><a href="~/Home/Index"><i class="fa fa-home"></i> Home</a></div>
-
-@section scripts{
-    @Scripts.Render("~/bundles/jqueryval")
-}

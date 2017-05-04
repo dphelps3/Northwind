@@ -130,27 +130,31 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\ChartController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Cart.cs">
+      <DependentUpon>NORTHWNDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CartDTO.cs" />
     <Compile Include="Models\Category.cs">
       <DependentUpon>NORTHWNDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChartData.cs" />
     <Compile Include="Models\Customer.cs">
       <DependentUpon>NORTHWNDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CustomerEdit.cs" />
-    <Compile Include="Models\CustomerRegister.cs" />
     <Compile Include="Models\CustomerSignIn.cs" />
-    <Compile Include="Models\database_firewall_rules.cs">
-      <DependentUpon>NORTHWNDModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Discount.cs">
       <DependentUpon>NORTHWNDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DiscountDTO.cs" />
     <Compile Include="Models\Employee.cs">
       <DependentUpon>NORTHWNDModel.tt</DependentUpon>
     </Compile>
@@ -194,8 +198,10 @@
     <Compile Include="Security\UserAccount.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jBox.css" />
     <Content Include="favicon.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -220,7 +226,9 @@
     <Content Include="Models\NORTHWNDModel.edmx.diagram">
       <DependentUpon>NORTHWNDModel.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\jsgnorthwind.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jBox.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -255,6 +263,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Cart\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
