@@ -1,6 +1,12 @@
 ﻿using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using Northwind.Models;
+using Northwind.Security;
+using System.Web.Security;
+using System.Net;
+using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace Northwind.Controllers
 {
@@ -56,6 +62,44 @@ namespace Northwind.Controllers
             }
 
             return Json(sc, JsonRequestBehavior.AllowGet);
+        }
+
+
+        /*public ActionResult Display()
+        {
+            using (NORTHWNDEntities db = new NORTHWNDEntities())
+            {
+                var carts = db.Carts.Include()
+                return View(carts);
+            }
+        }*/
+
+        // GET: Cart/Cart
+        [Authorize]
+        public ActionResult DisplayCart()
+        {
+            //ViewBag.CustomerID = UserAccount.GetUserID();
+            using (NORTHWNDEntities db = new NORTHWNDEntities())
+            {
+                // find contents of cart, based on customer's id
+                var acctId = UserAccount.GetUserID();
+
+                var cartList = db.Carts
+                    .Where(c => c.CustomerID == acctId);
+
+                List<Cart> carts = cartList
+                    .Include(p=>p.Product)
+                    .Include(c => c.Customer)
+                    .ToList();
+                // display original values in textboxes when customer is editing data
+                //CartDTO CartDTO = new CartDTO()
+                //{
+                //    ProductID = (int)cart.ProductID,
+                //    CustomerID = cart.CustomerID,
+                //    Quantity = cart.Quantity
+                //};
+                return View(carts);
+            }
         }
     }
 }
