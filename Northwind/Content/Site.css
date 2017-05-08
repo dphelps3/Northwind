@@ -97,3 +97,7 @@ textarea {
 .pad-top {
     padding-top: 6px;
 }
+
+.sm-textbox {
+    width: 25px;
+}

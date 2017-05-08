@@ -1,6 +1,12 @@
 ﻿using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using Northwind.Models;
+using Northwind.Security;
+using System.Web.Security;
+using System.Net;
+using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace Northwind.Controllers
 {
@@ -21,13 +27,6 @@ namespace Northwind.Controllers
             sc.ProductID = cartDTO.ProductID;
             sc.CustomerID = cartDTO.CustomerID;
             sc.Quantity = cartDTO.Quantity;
-
-            //using (NORTHWNDEntities db = new NORTHWNDEntities())
-            //{
-            //    // add the product to the customer’s cart
-            //    db.Carts.Add(sc);
-            //    db.SaveChanges();
-            //}
 
             using (NORTHWNDEntities db = new NORTHWNDEntities())
             {
@@ -56,6 +55,29 @@ namespace Northwind.Controllers
             }
 
             return Json(sc, JsonRequestBehavior.AllowGet);
+        }
+
+        // GET: Cart/DisplayCart
+        [Authorize]
+        public ActionResult DisplayCart()
+        {
+            using (NORTHWNDEntities db = new NORTHWNDEntities())
+            {
+                // find contents of the cart, based on customer's ID
+                var acctId = UserAccount.GetUserID();
+
+                var cartList = db.Carts
+                    .Where(c => c.CustomerID == acctId);
+
+                // compile cart items in a list
+                List<Cart> carts = cartList
+                    .Include(p => p.Product)
+                    .Include(c => c.Customer)
+                    .ToList();
+
+                // return view
+                return View(carts);
+            }
         }
     }
 }

@@ -111,7 +111,7 @@
                     $.getJSON(URL)
                        .always(function (data, textStatus, statusObject) {
                            if (statusObject.status == 200) {
-                               // 200 OK
+                               // 200 OK always needs to be 200
                                // console.log(statusObject.status);
                                $('#products').html('');
                                for (i = 0; i < data.length; i++) {

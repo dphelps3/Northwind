@@ -260,10 +260,10 @@
     <Content Include="Views\Product\Product.cshtml" />
     <Content Include="Views\Product\Search.cshtml" />
     <Content Include="Views\Home\SignedOut.cshtml" />
+    <Content Include="Views\Cart\DisplayCart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Cart\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
