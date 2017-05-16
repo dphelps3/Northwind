@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Northwind.Models.Cart>
+@using Northwind.Models;
+
+@{
+    ViewBag.Title = "Cart";
+}
+
+@foreach (var contact in Model.Take(1))
+{
+    <h2><i class='fa fa-shopping-cart'></i>&nbsp;&nbsp;@contact.Customer.ContactName's Cart</h2>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.Discounts)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            Price After Discount
+        </th>
+        <th></th>
+    </tr>
+
+@{
+    // store running total
+    var runningTotal = 0.00;
+}
+
+    @foreach (var item in Model)
+    {
+        var discount = 0.00;
+        foreach (Discount d in item.Product.Discounts)
+        {
+            discount = (double)d.DiscountPercent;
+        }
+
+        var productPrice = (double)(item.Product.UnitPrice);
+        var priceAfterDiscount = (productPrice - (productPrice * discount));
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.UnitPrice)
+            </td>
+            <td>
+                @foreach (Discount d in item.Product.Discounts)
+                {
+                    @Html.DisplayFor(modelItem => d.DiscountPercent)
+                }
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => item.Quantity, new { @class = "form-control smallTxtField" }) &nbsp;<a href="#"><i class="fa fa-refresh"></i></a>
+            </td>
+
+            <td>
+                @*<a id="@item.Product.ProductID" value="@item.Product.ProductID" class="removeItem"><i class="fa fa-times"></i></a>*@
+                @Html.ActionLink("Edit", "Edit", new { id=item.CartID }) |  
+                @Html.ActionLink("Details", "Details", new { id=item.CartID }) | 
+                @Html.ActionLink("Delete", "Delete", new { id = item.CartID })
+                
+
+                @*@Html.ActionLink("X", "Delete", 
+                    new { @class = "fa fa-times" },
+                    new { id = item.CartID })*@
+
+                @(priceAfterDiscount.ToString("0.00"))
+
+            </td>
+        </tr>
+        runningTotal = ((double)item.Product.UnitPrice * (double)item.Quantity) + runningTotal;
+}
+
+</table>

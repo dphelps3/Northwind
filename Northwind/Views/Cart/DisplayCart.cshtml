@@ -1,16 +1,20 @@
 ﻿@model IEnumerable<Northwind.Models.Cart>
+    @using Northwind.Models;
+
 @{
     ViewBag.Title = "Cart";
 }
 
+
 @foreach (var contact in Model.Take(1))
 {
-<h2><i class='fa fa-shopping-cart'></i>&nbsp;&nbsp;@contact.Customer.ContactName's Cart</h2>
+    <h2><i class='fa fa-shopping-cart'></i>&nbsp;&nbsp;@contact.Customer.ContactName's Cart</h2>
 }
 
-<p>
-    @*@Html.ActionLink("Create New", "Create") *@
-</p>
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+
 <table class="table">
     <tr>
         <th>
@@ -20,16 +24,23 @@
             @Html.DisplayNameFor(model => model.Product.ProductID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Quantity)
+            @Html.DisplayNameFor(model => model.Product.UnitPrice)
         </th>
         <th>
-            Subtotal
+            @Html.DisplayNameFor(model => model.Product.Discounts)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
         </th>
         <th>
             Remove
         </th>
-        <th></th>
     </tr>
+
+    @{
+        // store running total
+        var runningTotal = 0.00;
+    }
 
     @foreach (var item in Model)
     {
@@ -41,17 +52,43 @@
                 @Html.DisplayFor(modelItem => item.Product.ProductID)
             </td>
             <td>
-                @Html.TextBoxFor(modelItem => item.Quantity, new { @class = "form-control" }) &nbsp;<a href="#"><i class="fa fa-refresh"></i></a>
+                $@Html.DisplayFor(model => item.Product.UnitPrice)
             </td>
             <td>
-                @*@Html.ActionLink("Edit", "Edit", new { id = item.CartID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.CartID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.CartID }) *@
+                @*@foreach (Discount d in item.Product.Discounts)
+                {*@
+                    @Html.DisplayFor(model => item.Product.Discounts)
+                @*@}*@
             </td>
-            <td style="text-align:center;">
-                <a href="#"><i class="fa fa-times"></i></a>
+            <td>
+                @Html.TextBoxFor(modelItem => item.Quantity, new { @class = "form-control" }) &nbsp;<a href="#"><i class="fa fa-refresh"></i></a>
+            </td>
+            
+            <td>
+                <a id="@item.Product.ProductID" value="@item.Product.ProductID" class="removeItem"><i class="fa fa-times"></i></a>
+                @*@Html.ActionLink("Edit", "Edit", new { id=item.CartID }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.CartID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.CartID })*@
             </td>
         </tr>
+        runningTotal = ((double)item.Product.UnitPrice * (double)item.Quantity) + runningTotal;
     }
 
 </table>
+<div class="pull-right">
+    CART TOTAL: <b>$@(runningTotal)</b>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            
+            $('.removeItem').click(function () {
+                var removeValue = $(this).id();
+                alert(removeValue);
+            });
+
+        });
+    </script>
+}

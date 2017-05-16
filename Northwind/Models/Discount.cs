@@ -19,7 +19,7 @@ namespace Northwind.Models
         public Nullable<System.DateTime> StartTime { get; set; }
         public Nullable<System.DateTime> EndTime { get; set; }
         public Nullable<int> ProductID { get; set; }
-        public Nullable<decimal> Discount1 { get; set; }
+        public Nullable<decimal> DiscountPercent { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
     

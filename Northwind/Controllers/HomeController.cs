@@ -23,7 +23,7 @@ namespace Northwind.Controllers
                                Code = d.Code,
                                Title = d.Title,
                                Description = d.Description,
-                               DiscountPercent = d.Discount1,
+                               DiscountPercent = d.DiscountPercent,
                                EndTime = d.EndTime
                            }).Take(3).ToList();
                 return View(Dis);

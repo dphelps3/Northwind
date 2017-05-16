@@ -12,6 +12,7 @@
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css' />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -63,6 +64,17 @@
                 </form>
                 @if (Request.IsAuthenticated)
                 {
+                    // store running total
+                    //var runningTotal = 0.00;
+
+                    @*@foreach (var item in Model)
+                    {
+                        runningTotal = ((double)item.Product.UnitPrice * (double)item.Quantity) + runningTotal;
+                    }*@
+                    <ul class="nav navbar-nav navbar">
+                        <li><a href="~/Cart/DisplayCart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                    </ul>
+                    
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="~/Home/SignOut"><i class="fa fa-sign-out"></i> Sign Out</a></li>
                     </ul>
