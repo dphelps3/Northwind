@@ -18,8 +18,8 @@ namespace Northwind.Models
         public Product()
         {
             this.Carts = new HashSet<Cart>();
-            this.Order_Details = new HashSet<Order_Detail>();
             this.Discounts = new HashSet<Discount>();
+            this.Order_Details = new HashSet<Order_Detail>();
         }
     
         public int ProductID { get; set; }
@@ -37,9 +37,9 @@ namespace Northwind.Models
         public virtual ICollection<Cart> Carts { get; set; }
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Discount> Discounts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order_Detail> Order_Details { get; set; }
         public virtual Supplier Supplier { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Discount> Discounts { get; set; }
     }
 }

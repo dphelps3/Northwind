@@ -152,6 +152,9 @@
     </Compile>
     <Compile Include="Models\CustomerEdit.cs" />
     <Compile Include="Models\CustomerSignIn.cs" />
+    <Compile Include="Models\database_firewall_rules.cs">
+      <DependentUpon>NORTHWNDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Discount.cs">
       <DependentUpon>NORTHWNDModel.tt</DependentUpon>
     </Compile>
@@ -202,6 +205,8 @@
     <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\old-bootstrap.css" />
+    <Content Include="Content\old-bootstrap.min.css" />
     <Content Include="Content\jBox.css" />
     <Content Include="favicon.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

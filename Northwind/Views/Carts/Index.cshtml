@@ -1,8 +1,133 @@
 ﻿@model IEnumerable<Northwind.Models.Cart>
+@using Northwind.Models
+
+@{
+    ViewBag.Title = "Index";
+
+}
+
+<h2>Your Shopping Cart</h2>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.Discounts)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            Price After Discount
+        </th>
+        <th>
+            Total Price
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer.CompanyName)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @{
+        // store running total
+        var runningTotal = 0.00;
+        var totalDiscounts = 0.00;
+    }
+
+    @foreach (var item in Model)
+    {
+
+        var discount = 0.00;
+        foreach (Discount d in item.Product.Discounts)
+        {
+            discount = (double)d.DiscountPercent;
+        }
+        var productPrice = (double)(item.Product.UnitPrice);
+        var priceAfterDiscount = (productPrice - (productPrice * discount));
+        var totalPrice = (double)(item.Quantity) * priceAfterDiscount;
+            
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.ProductName)
+            </td>
+            <td>
+
+                @Html.DisplayFor(modelItem => item.Product.UnitPrice)
+
+            </td>
+            <td>
+                @foreach (Discount d in item.Product.Discounts)
+                {
+
+                    @Html.DisplayFor(modelItem => d.DiscountPercent)
+
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+
+            <td>
+                @(priceAfterDiscount.ToString("0.00"))
+            </td>
+            <td>
+                @(totalPrice.ToString("0.00"))
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.CompanyName)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CartID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CartID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CartID })
+            </td>
+        </tr>
+        runningTotal = totalPrice + runningTotal;
+        totalDiscounts = (((productPrice - priceAfterDiscount) * (double)item.Quantity) + totalDiscounts);
+    }
+
+</table>
+<div class="container">
+<div class="panel-group pull-right">
+    <div class="panel panel-default">
+        <div class="panel-body" style="text-align:right;">Total: <strong> $@((runningTotal+totalDiscounts).ToString("0.00")) </strong></div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body" style="text-align:right;">Discounts: -$@(totalDiscounts.ToString("0.00")) </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body" style="text-align:right;">Final Total: <strong> $@(runningTotal.ToString("0.00")) </strong></div>
+    </div>
+</div>
+</div>
+
+
+<div class="font-md">
+    <a href="~/Product/Category"><i class="fa fa-list"></i> Product Categories</a>
+</div>
+<div class="font-md">
+    <a href="~/Product/Category"><i class="fa fa-credit-card" aria-hidden="true"></i> Check-Out</a>
+</div>
+
+
+@*@model IEnumerable<Northwind.Models.Cart>
 @using Northwind.Models;
 
 @{
-    ViewBag.Title = "Cart";
+    ViewBag.Title = "Index";
 }
 
 @foreach (var contact in Model.Take(1))
@@ -64,15 +189,15 @@
             </td>
 
             <td>
-                @*<a id="@item.Product.ProductID" value="@item.Product.ProductID" class="removeItem"><i class="fa fa-times"></i></a>*@
+                @*<a id="@item.Product.ProductID" value="@item.Product.ProductID" class="removeItem"><i class="fa fa-times"></i></a>
                 @Html.ActionLink("Edit", "Edit", new { id=item.CartID }) |  
                 @Html.ActionLink("Details", "Details", new { id=item.CartID }) | 
                 @Html.ActionLink("Delete", "Delete", new { id = item.CartID })
                 
 
-                @*@Html.ActionLink("X", "Delete", 
+                @Html.ActionLink("X", "Delete", 
                     new { @class = "fa fa-times" },
-                    new { id = item.CartID })*@
+                    new { id = item.CartID })
 
                 @(priceAfterDiscount.ToString("0.00"))
 
@@ -81,4 +206,4 @@
         runningTotal = ((double)item.Product.UnitPrice * (double)item.Quantity) + runningTotal;
 }
 
-</table>
+</table>*@

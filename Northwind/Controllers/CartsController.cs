@@ -15,23 +15,23 @@ namespace Northwind.Controllers
         private NORTHWNDEntities db = new NORTHWNDEntities();
 
         // GET: Carts
-        /* public ActionResult Index()
-        {
-            var carts = db.Carts.Include(c => c.Customer).Include(c => c.Product);
-            return View(carts.ToList());
-        } */
+        // public ActionResult Index()
+        //{
+        //    var carts = db.Carts.Include(c => c.Customer).Include(c => c.Product);
+        //    return View(carts.ToList());
+        //} 
 
         // GET: Carts/Index
         [Authorize]
         public ActionResult Index()
         {
-            // find contents of the cart, based on customer's ID
+             //find contents of the cart, based on customer's ID
             var acctId = UserAccount.GetUserID();
 
             var cartList = db.Carts
                 .Where(c => c.CustomerID == acctId);
 
-            // compile cart items in a list
+             //compile cart items in a list
             List<Cart> carts = cartList
                 .Include(p => p.Product)
                 .Include(c => c.Customer)
